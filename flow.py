@@ -119,9 +119,9 @@ if flag:
 print
 
 filename = raw_input("Enter the name you want to use for the file: ")
-filename = filename + ".txt"
+filename = filename + ".csv"
 thefile = open(filename, "w")
-thefile.write("protocol,sourcePortNumber,DestinationPortNumber,sizesOfPackets,maximumSize,minimumSize,averageSize,varianceOfSizes\n")
+thefile.write("protocol,sourcePortNumber,DestinationPortNumber,sizesOfPackets,maximumSize,minimumSize,averageSize,varianceOfSizes,application\n")
 #print("protocol,sourcePortNumber,DestinationPortNumber,sizesOfPackets,maximumSize,minimumSize,averageSize,varianceOfSizes,application") 
 
 for key, value in M.iteritems():
@@ -133,7 +133,7 @@ for key, value in M.iteritems():
 	minSize = getMinSize(sizes)
 	avgSize = getAvgSize(sizes)
 	varianceSize = getVariance(sizes, avgSize)
-	thefile.write(str(srcProto) + "," + str(srcPortNum) + "," + str(dstPortNum) + "," + str(sizes) + "," + str(maxSize) + "," + str(minSize) + "," + str(avgSize) + "," + str(varianceSize))
+	thefile.write(str(srcProto) + "," + str(srcPortNum) + "," + str(dstPortNum) + "," + str(sizes) + "," + str(maxSize) + "," + str(minSize) + "," + str(avgSize) + "," + str(varianceSize) + "," + name)
 #	print(srcProto, srcPortNum, dstPortNum, sizes, maxSize, minSize, avgSize, varianceSize, name) 
 #for key,value in M.iteritems():
 # print key, ": ", len(value)
