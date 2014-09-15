@@ -12,10 +12,7 @@ from scapy.all import *
 
 # esta funcion pide como input si deseas evaluar los primeros N paquetes de un flow 
 def checkOption():
-	option = raw_input("Do you want to get the statistics of a limited ammount of packets? (y/n): ")
-	while option != "y" and option != "n":
-		option = raw_input("Not a valid input. Do you want to get the statistics of a limited ammount of packets? (y/n): ")
-	if option == "y":
+	if len(sys.argv[2]) != 0:
 		return True
 	else:
 		return False
@@ -86,18 +83,20 @@ def checkProto(lista):
 	return True
  
 #-----------------------------------------------------
+if len(sys.argv) != 4:
+	sys.exit("ERROR: %s needs exactly 4 parameters:\n %s <file to read> <N packets> <output file>" %(sys.argv[0], sys.argv[0]))
 print("Reading files. Please wait...")
 #st = sys.argv[1] + "*" + ".pcap"
 a = []
 f = os.listdir("./")
 name = sys.argv[1]
 filteredList = list( filter((lambda x: name in x ), f))
-contofFiles = 1
+#contofFiles = 1
 for filename in filteredList:
 	x = rdpcap(filename)
 	a.extend(x)
-	print "finished reading file", contofFiles
-	contofFiles = contofFiles + 1
+#	print "finished reading file", contofFiles
+#	contofFiles = contofFiles + 1
 print("Finished.")
 print
 print "Packets: ", len(a)
@@ -115,14 +114,12 @@ for i in range(len(a)):
  
 flag = checkOption()
 if flag:
-	N = input("Enter the first N packets to be evaluated: ")
+	N = sys.argv[2]
 print
 
-filename = raw_input("Enter the name you want to use for the file: ")
-filename = filename + ".csv"
-thefile = open(filename, "w")
-thefile.write("protocol,sourcePortNumber,DestinationPortNumber,sizesOfPackets,maximumSize,minimumSize,averageSize,varianceOfSizes,application\n")
-#print("protocol,sourcePortNumber,DestinationPortNumber,sizesOfPackets,maximumSize,minimumSize,averageSize,varianceOfSizes,application") 
+filename = sys.argv[3]
+filename = filename + ".arff"
+thefile = open(filename, "wb")
 
 for key, value in M.iteritems():
 	srcProto = value[0].proto
@@ -133,9 +130,9 @@ for key, value in M.iteritems():
 	minSize = getMinSize(sizes)
 	avgSize = getAvgSize(sizes)
 	varianceSize = getVariance(sizes, avgSize)
-	thefile.write(str(srcProto) + "," + str(srcPortNum) + "," + str(dstPortNum) + "," + str(sizes) + "," + str(maxSize) + "," + str(minSize) + "," + str(avgSize) + "," + str(varianceSize) + "," + name)
-#	print(srcProto, srcPortNum, dstPortNum, sizes, maxSize, minSize, avgSize, varianceSize, name) 
+	thefile.write(str(srcProto) + "," + str(srcPortNum) + "," + str(dstPortNum) + "," + str(maxSize) + "," + str(minSize) + "," + str(avgSize) + "," + str(varianceSize) + "," + name + '\n')
+	
 #for key,value in M.iteritems():
 # print key, ": ", len(value)
- 
+thefile.close()
 print
