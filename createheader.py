@@ -7,25 +7,25 @@ import sys
 import os
 
 f = os.listdir("./")
-name = sys.argv[1]
+name = sys.argv[1] #name of the file that you are going to open
 thefile = filter((lambda x: name in x ), f)
 thefile = thefile[0]
 filename = raw_input("Enter the name you want to use for the file: ")
 
 dataFile = open(thefile, "r")
 content = []
-for line in dataFile:
+for line in dataFile: #divides every line of the file and puts it in content
 	attribute = line.split()
 	content.append(attribute)
 #print content
 
 other = []
 
-for e in content:
+for e in content: #split the lines in content by a coma "," and put them in other
 	other.append(e[0].split(","))
 #print other
 
-listProto = []
+#make a list for every attribute
 listSrcPort = []
 listDestPort = []
 listMax = []
@@ -34,17 +34,18 @@ listAvg = []
 listVari = []
 listApp = []
 
+#for each list in other put the respective attribute in the attribute list
 for lists in other:
-	listProto.append(lists[0])
-	listSrcPort.append(lists[1])
-	listDestPort.append(lists[2])
-	listMax.append(lists[3])
-	listMin.append(lists[4])
-	listAvg.append(lists[5])
-	listVari.append(lists[6])
-	listApp.append(lists[7])
+	listSrcPort.append(lists[0])
+	listDestPort.append(lists[1])
+	listMax.append(lists[2])
+	listMin.append(lists[3])
+	listAvg.append(lists[4])
+	listVari.append(lists[5])
+	listApp.append(lists[6])
 
-listProto = list(set(listProto))
+#change all the lists to sets so you only stay with the different values of each attribute
+#then make it a list again so it's easier to work with
 listSrcPort = list(set(listSrcPort))
 listDestPort = list(set(listDestPort))
 listMax = list(set(listMax))
@@ -53,19 +54,15 @@ listAvg = list(set(listAvg))
 listVari = list(set(listVari))
 listApp = list(set(listApp))
 
-dataFile.close()
+dataFile.close() #close the file
 
+
+#create the file that will contain the header
 header = filename + "-header.arff"	
 headerFile = open(header, "wb")
 headerFile.write("@relation networkflows\n")
-headerFile.write("@attribute protocol {")
-for i in range(len(listProto)):
-	if i == len(listProto)-1:
-		headerFile.write(listProto[i])
-	else:
-		headerFile.write(listProto[i]+",")
-headerFile.write("}\n")
 
+#create the header of the .arff file 
 headerFile.write("@attribute sourcePortNumber {")
 for i in range(len(listSrcPort)):
 	if i == len(listSrcPort)-1:

@@ -130,7 +130,7 @@ for key, value in M.iteritems():
 	minSize = getMinSize(sizes)
 	avgSize = getAvgSize(sizes)
 	varianceSize = getVariance(sizes, avgSize)
-	thefile.write(str(srcProto) + "," + str(srcPortNum) + "," + str(dstPortNum) + "," + str(maxSize) + "," + str(minSize) + "," + str(avgSize) + "," + str(varianceSize) + "," + name + '\n')
+	thefile.write(str(srcPortNum) + "," + str(dstPortNum) + "," + str(maxSize) + "," + str(minSize) + "," + str(avgSize) + "," + str(varianceSize) + "," + name + '\n')
 	
 #for key,value in M.iteritems():
 # print key, ": ", len(value)
