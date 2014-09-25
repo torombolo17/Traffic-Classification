@@ -2,8 +2,8 @@
 # Author: Jose R de la Vega
 #email: j.r.delavega17@gmail.com
  
-# Program to read a pcap file and output the unique
-# source destination pairs.
+# Program to read a pcap file and output statistical data
+# about the flows in the file
  
 import math
 import sys

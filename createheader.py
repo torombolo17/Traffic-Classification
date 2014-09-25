@@ -2,6 +2,10 @@
 # Author: Jose R de la Vega
 #email: j.r.delavega17@gmail.com
 
+# Program to read the data produced by flow.py and make
+# a header in the format .arff about the data given
+
+
 import math
 import sys
 import os
@@ -60,7 +64,7 @@ dataFile.close() #close the file
 #create the file that will contain the header
 header = filename + "-header.arff"	
 headerFile = open(header, "wb")
-headerFile.write("@relation networkflows\n")
+headerFile.write("@relation networkflows\n\n")
 
 #create the header of the .arff file 
 headerFile.write("@attribute sourcePortNumber {")
@@ -118,7 +122,7 @@ for i in range(len(listApp)):
 	else:
 		headerFile.write(listApp[i]+",")
 headerFile.write("}\n")
-headerFile.write("}\n")
+headerFile.write("\n")
 
 headerFile.write("@data\n")
 headerFile.close()
