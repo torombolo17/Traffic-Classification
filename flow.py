@@ -2,23 +2,23 @@
 # Author: Jose R de la Vega
 #email: j.r.delavega17@gmail.com
  
-# Program to read a pcap file and output statistical data
-# about the flows in the file
+# Program to read a pcap file and output the unique
+# source destination pairs.
  
 import math
 import sys
 import os
 from scapy.all import *
 
-# esta funcion pide como input si deseas evaluar los primeros N paquetes de un flow 
+# Checks if the user wants to use a specific amout of packets (currently not using it)
 def checkOption():
 	if len(sys.argv[2]) != 0:
 		return True
 	else:
 		return False
 
-# esta funcion verifica el flag y si este es cierto entonces verifica que N no sea mayor que la cantidad de paquetes en un flow
-# de ser asi los evalua todos aunque no cupla con N.
+# this function verifies the flag and if it is true then verifies that N is not greater than the ammount of packets in a flow
+# if that is true then it evaluates all packets without taking in count N.
 def checkFlagAndSize(lista):
 	if flag:
 		if N > len(lista):
@@ -28,8 +28,7 @@ def checkFlagAndSize(lista):
 	else:
 		return False
 
- 
-# esta funcion devuelve una lista con los tama~os de los primeros N paquetes
+# this function returns a list with the size of the first N packets
 def sizesOfNPackets(lista):
 	listSizes = [] # lista a devolver
 	
@@ -42,7 +41,7 @@ def sizesOfNPackets(lista):
 			listSizes.append(lista[i].len)
 		return listSizes
  
-# esta funcion devuelve el tama~o maximo entre los primeros N paquetes
+# this function returns the maximum size of the first N packets
 def getMaxSize(lista):
 	maximo = lista[0]
 	for i in range(len(lista)):
@@ -50,7 +49,7 @@ def getMaxSize(lista):
 			maximo = lista[i]
 	return maximo
  
-#esta funcion devuelve el tama~o minimo entre los primeros N paquetes
+# this function returns the minimum size of the first N packets
 def getMinSize(lista):
 	minimo = lista[0]
 	for i in range(len(lista)):
@@ -58,7 +57,7 @@ def getMinSize(lista):
 			minimo = lista[i]
 	return minimo
  
-#esta funcion devuelve el promedio de tama~o de los primeros N paquetes
+# thisfunction returns the average size of the first N packets
 def getAvgSize(lista):
 	avg = 0
 	for i in range(len(lista)):
@@ -66,15 +65,15 @@ def getAvgSize(lista):
 	avg = avg/len(lista)
 	return avg
  
-#esta funcion devuelve el variance de tama~os de los primeros N paquetes
+# this function returns the variance of the first N packet
 def getVariance(lista, mean):
-	lista2 = [] #lista que va a contener el queadrado de la diferencia
+	lista2 = [] #list that will have the square of the difference
 	for e in lista:
 		e = pow(e - mean, 2)
 		lista2.append(e)
 	return getAvgSize(lista2)
  
-#esta funcion es para probar que todos los protocols de un flow sean iguales
+# this function is to test that all the protocols of a flow are equal
 def checkProto(lista):
 	protocol = lista[0].proto
 	for i in range(len(lista)):
@@ -100,17 +99,17 @@ for filename in filteredList:
 print("Finished.")
 print
 print "Packets: ", len(a)
-M = {} # un mapa para guardar src, dst distintos; representa un flow
+M = {} # a dictionary to store different src, dst; represents a flow
 
-# el siguiente for cuenta cuantos pares de src / dst hay de cada uno
+# this for counts how many pairs of src / dst are there of each one
 for i in range(len(a)):
-	sd = a[i]["IP"].dst + " - " + a[i]["IP"].src # un string compuesto del dst + src
+	sd = a[i]["IP"].dst + " - " + a[i]["IP"].src # string used as key for dictionary; dst + src
 	if sd in M:
-		M[sd].append(a[i]) # a~adir paquete al flow correspondiente
+		M[sd].append(a[i]) # add a packet to the corresponding flow
 	else:
-		M[sd] = [a[i]] # a~ade al mapa
-					   # una lista con el
-					   # paquete del flow nuevo
+		M[sd] = [a[i]] # add to dictionary
+					   # a list with the 
+					   # packet of the new flow
  
 flag = checkOption()
 if flag:
